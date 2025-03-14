@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Light Control</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+    <script>
+        const broker = "wss://test.mosquitto.org:8081/mqtt"; // Public MQTT broker
+        const topic = "/student_group/light_control";
+        const client = mqtt.connect(broker);
+
+        client.on("connect", () => {
+            console.log("Connected to MQTT broker");
+        });
+
+        function sendCommand(command) {
+            client.publish(topic, command);
+            document.getElementById("status").innerText = `Last Command Sent: ${command}`;
+        }
+    </script>
+</head>
+<body>
+    <h2>MQTT Light Control</h2>
+    <button onclick="sendCommand('ON')">Turn ON</button>
+    <button onclick="sendCommand('OFF')">Turn OFF</button>
+    <p id="status">Last Command Sent: None</p>
+</body>
+</html>
